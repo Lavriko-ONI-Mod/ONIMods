@@ -63,31 +63,31 @@ staticID: PeterHan.$(AssemblyName)
     <WriteLinesToFile File="$(ModDescriptionFile)" Overwrite="true" Lines="$(ModDescriptionFileContent)"/>
   </Target>
 
-  <Target Name="ILRepack" AfterTargets="Build" Condition=" '$(PLibCore)' != 'true' ">
-    <PropertyGroup Condition=" '$(AssemblyName)' == 'PLib' ">
-      <Internalize>false</Internalize>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(AssemblyName)' != 'PLib' ">
-      <Internalize>true</Internalize>
-    </PropertyGroup>
-    <ItemGroup Condition=" '$(UsesPLib)' != 'false' Or '$(AssemblyName)' == 'PLib' ">
-      <InputAssemblies Include="$(TargetPath)" />
-      <InputAssemblies Include="$(TargetDir)PLib*.dll" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(UsesPLib)' == 'false' ">
-      <InputAssemblies Include="$(TargetPath)" />
-    </ItemGroup>
+<!--  <Target Name="ILRepack" AfterTargets="Build" Condition=" '$(PLibCore)' != 'true' ">-->
+<!--    <PropertyGroup Condition=" '$(AssemblyName)' == 'PLib' ">-->
+<!--      <Internalize>false</Internalize>-->
+<!--    </PropertyGroup>-->
+<!--    <PropertyGroup Condition=" '$(AssemblyName)' != 'PLib' ">-->
+<!--      <Internalize>true</Internalize>-->
+<!--    </PropertyGroup>-->
+<!--    <ItemGroup Condition=" '$(UsesPLib)' != 'false' Or '$(AssemblyName)' == 'PLib' ">-->
+<!--      <InputAssemblies Include="$(TargetDir)PLib*.dll" />-->
+<!--    </ItemGroup>-->
+<!--    <ItemGroup Condition=" '$(UsesPLib)' == 'false' ">-->
+<!--      <InputAssemblies Include="$(TargetPath)" />-->
+<!--    </ItemGroup>-->
 
-    <ILRepack
-        TargetPlatformVersion="v4"
-        TargetKind="SameAsPrimaryAssembly"
-        OutputFile="$(TargetPath)"
-        InputAssemblies="@(InputAssemblies)"
-        XmlDocumentation="true"
-        Internalize="$(Internalize)"
-        Wildcards="true"
-        LibraryPath="$(GameFolderActive)" />
-  </Target>
+<!--    <ILRepack-->
+<!--        TargetPlatformVersion="v4"-->
+<!--        OutputType="SameAsPrimaryAssembly"-->
+<!--        MainAssembly="$(TargetPath)"-->
+<!--        OutputAssembly="$(TargetPath)"-->
+<!--        InputAssemblies="@(InputAssemblies)"-->
+<!--        XmlDocumentation="true"-->
+<!--        Internalize="$(Internalize)"-->
+<!--        WilcardInputAssemblies="true"-->
+<!--        WorkingDirectory="$(GameFolderActive)" />-->
+<!--  </Target>-->
 
   <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(DistributeMod)' == 'true' ">
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

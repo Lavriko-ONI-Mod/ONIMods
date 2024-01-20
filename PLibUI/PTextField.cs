@@ -25,7 +25,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// A custom UI text field factory class.
 	/// </summary>
-	public sealed class PTextField : IUIComponent {
+	public sealed class PTextField : UIComponentBase {
 		/// <summary>
 		/// Configures a Text Mesh Pro field.
 		/// </summary>
@@ -110,8 +110,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public string PlaceholderText { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The text alignment in the text field.
 		/// </summary>
@@ -137,12 +135,15 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public FieldType Type { get; set; }
 
-		public event PUIDelegates.OnRealize OnRealize;
-
 		/// <summary>
 		/// The action to trigger on text change. It is passed the realized source object.
 		/// </summary>
 		public PUIDelegates.OnTextChanged OnTextChanged { get; set; }
+
+		/// <summary>
+		/// The action to trigger on ValueChange. It is passed the realized source object.
+		/// </summary>
+		public PUIDelegates.OnTextChanged OnValueChanged { get; set; }
 
 		/// <summary>
 		/// The callback to invoke when validating input.
@@ -176,7 +177,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var textField = PUIElements.CreateUI(null, Name);
 			var style = TextStyle ?? PUITuning.Fonts.TextLightStyle;
 			// Background
@@ -216,6 +217,7 @@ namespace PeterHan.PLib.UI {
 			ConfigureTextEntry(textEntry);
 			var events = textField.AddComponent<PTextFieldEvents>();
 			events.OnTextChanged = OnTextChanged;
+			events.OnValueChangedEvent = OnValueChanged;
 			events.OnValidate = OnValidate;
 			events.TextObject = textBox;
 			// Add tooltip
@@ -230,7 +232,8 @@ namespace PeterHan.PLib.UI {
 				MinWidth, LayoutUtility.GetPreferredHeight(rt))).AddOrGet<LayoutElement>();
 			layout.flexibleWidth = FlexSize.x;
 			layout.flexibleHeight = FlexSize.y;
-			OnRealize?.Invoke(textField);
+			InvokeOnRealize(textField);
+			BuiltObject = textField;
 			return textField;
 		}
 

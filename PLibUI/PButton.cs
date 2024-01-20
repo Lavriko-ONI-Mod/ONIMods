@@ -125,6 +125,7 @@ namespace PeterHan.PLib.UI {
 			layout.flexibleHeight = FlexSize.y;
 			DestroyLayoutIfPossible(button);
 			InvokeRealize(button);
+			BuiltObject = button;
 			return button;
 		}
 

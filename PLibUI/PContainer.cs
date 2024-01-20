@@ -23,7 +23,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// The abstract parent of PLib UI objects that are meant to contain other UI objects.
 	/// </summary>
-	public abstract class PContainer : IUIComponent {
+	public abstract class PContainer : UIComponentBase {
 		/// <summary>
 		/// The background color of this panel.
 		/// </summary>
@@ -54,10 +54,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public RectOffset Margin { get; set; }
 
-		public string Name { get; protected set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
-
 		protected PContainer(string name) {
 			BackColor = PUITuning.Colors.Transparent;
 			BackImage = null;
@@ -67,14 +63,14 @@ namespace PeterHan.PLib.UI {
 			Name = name ?? "Container";
 		}
 
-		public abstract GameObject Build();
+		public abstract override GameObject Build();
 		
 		/// <summary>
 		/// Invokes the OnRealize event.
 		/// </summary>
 		/// <param name="obj">The realized text component.</param>
 		protected void InvokeRealize(GameObject obj) {
-			OnRealize?.Invoke(obj);
+			InvokeOnRealize(obj);
 		}
 
 		/// <summary>

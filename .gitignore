@@ -258,3 +258,5 @@ paket-files/
 *.cmd
 Assets/
 *.lnk
+
+build/

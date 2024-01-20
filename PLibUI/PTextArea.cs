@@ -26,7 +26,7 @@ namespace PeterHan.PLib.UI {
 	/// A custom UI text area (multi-line text field) factory class. This class should
 	/// probably be wrapped in a scroll pane.
 	/// </summary>
-	public sealed class PTextArea : IUIComponent {
+	public sealed class PTextArea : UIComponentBase {
 		/// <summary>
 		/// The text area's background color.
 		/// </summary>
@@ -47,8 +47,6 @@ namespace PeterHan.PLib.UI {
 		/// The maximum number of characters in this text area.
 		/// </summary>
 		public int MaxLength { get; set; }
-
-		public string Name { get; }
 
 		/// <summary>
 		/// The minimum width in units (not characters!) of this text area.
@@ -74,8 +72,6 @@ namespace PeterHan.PLib.UI {
 		/// The tool tip text.
 		/// </summary>
 		public string ToolTip { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		/// <summary>
 		/// The action to trigger on text change. It is passed the realized source object.
@@ -112,7 +108,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var textField = PUIElements.CreateUI(null, Name);
 			var style = TextStyle ?? PUITuning.Fonts.TextLightStyle;
 			// Background
@@ -155,7 +151,8 @@ namespace PeterHan.PLib.UI {
 				AddOrGet<LayoutElement>();
 			layout.flexibleWidth = FlexSize.x;
 			layout.flexibleHeight = FlexSize.y;
-			OnRealize?.Invoke(textField);
+			InvokeOnRealize(textField);
+			BuiltObject = textField;
 			return textField;
 		}
 

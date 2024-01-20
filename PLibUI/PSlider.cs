@@ -26,7 +26,7 @@ namespace PeterHan.PLib.UI {
 	/// A custom UI slider factory class with one handle. Does not include a text field to set
 	/// the value.
 	/// </summary>
-	public class PSliderSingle : IUIComponent {
+	public class PSliderSingle : UIComponentBase {
 		/// <summary>
 		/// Sets the current value of a realized slider.
 		/// </summary>
@@ -87,8 +87,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public float MinValue { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The action to trigger during slider dragging.
 		/// </summary>
@@ -105,8 +103,6 @@ namespace PeterHan.PLib.UI {
 		/// object and new value.
 		/// </summary>
 		public PUIDelegates.OnSliderChanged OnValueChanged { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		/// <summary>
 		/// The tool tip text. If {0} is present, it will be formatted with the slider's
@@ -145,7 +141,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			// Bounds must be valid
 			if (MaxValue.IsNaNOrInfinity())
 				throw new ArgumentException(nameof(MaxValue));
@@ -204,7 +200,8 @@ namespace PeterHan.PLib.UI {
 			slider.SetMinUISize(isVertical ? new Vector2(TrackSize, PreferredLength) :
 				new Vector2(PreferredLength, TrackSize));
 			slider.SetFlexUISize(FlexSize);
-			OnRealize?.Invoke(slider);
+			InvokeOnRealize(slider);
+			BuiltObject = slider;
 			return slider;
 		}
 

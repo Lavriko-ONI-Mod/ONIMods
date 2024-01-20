@@ -109,6 +109,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{DD48872E-7
 		Directory.Build.props.default = Directory.Build.props.default
 		Directory.Build.targets = Directory.Build.targets
 		README.md = README.md
+		custom_build.sh = custom_build.sh
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreserveSeed", "PreserveSeed\PreserveSeed.csproj", "{135508AE-EF4B-49D6-882F-735B85B85B2B}"

@@ -69,6 +69,7 @@ namespace PeterHan.PLib.UI {
 			layout.flexibleHeight = FlexSize.y;
 			DestroyLayoutIfPossible(label);
 			InvokeRealize(label);
+			BuiltObject = label;
 			return label;
 		}
 

@@ -27,6 +27,8 @@ namespace PeterHan.PLib.UI {
 		/// The component name.
 		/// </summary>
 		string Name { get; }
+		
+		GameObject BuiltObject { get; }
 
 		/// <summary>
 		/// Creates a physical game object embodying this component.

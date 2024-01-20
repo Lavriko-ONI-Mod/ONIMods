@@ -3,28 +3,24 @@
   <Import Condition=" !Exists('Directory.Build.props.user') " Project="Directory.Build.props.default" />
   <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  
   <ItemDefinitionGroup>
     <Reference Private="False" />
     <ProjectReference Private="True" />
   </ItemDefinitionGroup>
 
-  <ItemGroup Condition=" '$(PLibCore)' != 'true' ">
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.26" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Mergedown' ">
     <GameFolderActive>$(GameFolderMergedown)</GameFolderActive>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' != 'Mergedown' ">
     <GameFolderActive>$(GameFolderLegacy)</GameFolderActive>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(UsePublicized)' == 'true' " >
-    <PubliciseInputAssemblies Include="$(GameFolderActive)/Assembly-CSharp.dll;
-      $(GameFolderActive)/Assembly-CSharp-firstpass.dll"/>
-    <Reference Include="Assembly-CSharp_public" HintPath="../public-lib/Assembly-CSharp_public.dll" />
-    <Reference Include="Assembly-CSharp-firstpass_public" HintPath="../public-lib/Assembly-CSharp-firstpass_public.dll" />
-    <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0"/>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(UsePublicized)' != 'true' " >
+  <ItemGroup>
     <Reference Include="Assembly-CSharp" HintPath="$(GameFolderActive)/Assembly-CSharp.dll" />
     <Reference Include="Assembly-CSharp-firstpass" HintPath="$(GameFolderActive)/Assembly-CSharp-firstpass.dll" />
   </ItemGroup>
@@ -40,6 +36,7 @@
     <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolderActive)/UnityEngine.TextRenderingModule.dll" />
     <Reference Include="UnityEngine.UI" HintPath="$(GameFolderActive)/UnityEngine.UI.dll" />
     <Reference Include="UnityEngine.UIModule" HintPath="$(GameFolderActive)/UnityEngine.UIModule.dll" />
+    <Reference Include="UnityEngine.UnityWebRequestModule" HintPath="$(GameFolderActive)/UnityEngine.UnityWebRequestModule.dll" />
   </ItemGroup>
   <ItemGroup Condition=" '$(UsesPLib)' != 'false' ">
     <ProjectReference Include="../PLibCore/PLibCore.csproj" />
@@ -50,6 +47,12 @@
     <ProjectReference Include="../PLibLighting/PLibLighting.csproj" />
     <ProjectReference Include="../PLibOptions/PLibOptions.csproj" />
     <ProjectReference Include="../PLibUI/PLibUI.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <ILRepackVersion>2.0.27</ILRepackVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ILRepack" Version="$(ILRepackVersion)" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Mergedown' ">
     <DefineConstants>MERGEDOWN</DefineConstants>

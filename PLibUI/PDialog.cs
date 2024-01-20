@@ -25,7 +25,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// A dialog root for UI components.
 	/// </summary>
-	public sealed class PDialog : IUIComponent {
+	public sealed class PDialog : UIComponentBase {
 		/// <summary>
 		/// The margin around dialog buttons.
 		/// </summary>
@@ -99,8 +99,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public Vector2 MaxSize { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The dialog's parent.
 		/// </summary>
@@ -142,8 +140,6 @@ namespace PeterHan.PLib.UI {
 		/// The events to invoke when the dialog is closed.
 		/// </summary>
 		public PUIDelegates.OnDialogClosed DialogClosed { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		public PDialog(string name) {
 			Body = new PPanel("Body") {
@@ -202,7 +198,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			if (Parent == null)
 				throw new InvalidOperationException("Parent for dialog may not be null");
 			var dialog = PUIElements.CreateUI(Parent, Name);
@@ -231,7 +227,8 @@ namespace PeterHan.PLib.UI {
 			// Dialog is realized
 			dComponent.dialog = this;
 			dComponent.sortKey = SortKey;
-			OnRealize?.Invoke(dialog);
+			InvokeOnRealize(dialog);
+			BuiltObject = dialog;
 			return dialog;
 		}
 
