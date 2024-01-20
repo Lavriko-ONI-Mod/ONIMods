@@ -27,7 +27,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// A factory for scrollable panes.
 	/// </summary>
-	public sealed class PScrollPane : IUIComponent {
+	public sealed class PScrollPane : UIComponentBase {
 		/// <summary>
 		/// The track size of scrollbars is based on the sprite.
 		/// </summary>
@@ -58,8 +58,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public Vector2 FlexSize { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// Whether horizontal scrolling is allowed.
 		/// </summary>
@@ -74,8 +72,6 @@ namespace PeterHan.PLib.UI {
 		/// The size of the scrollbar track.
 		/// </summary>
 		public float TrackSize { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		public PScrollPane() : this(null) { }
 
@@ -100,11 +96,12 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			if (Child == null)
 				throw new InvalidOperationException("No child component");
 			var pane = BuildScrollPane(null, Child.Build());
-			OnRealize?.Invoke(pane);
+			InvokeOnRealize(pane);
+			BuiltObject = pane;
 			return pane;
 		}
 
@@ -153,6 +150,7 @@ namespace PeterHan.PLib.UI {
 			var layout = pane.AddComponent<PScrollPaneLayout>();
 			layout.flexibleHeight = FlexSize.y;
 			layout.flexibleWidth = FlexSize.x;
+			BuiltObject = BuiltObject;
 			return pane;
 		}
 

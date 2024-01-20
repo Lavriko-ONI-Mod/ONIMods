@@ -24,7 +24,7 @@ namespace PeterHan.PLib.UI {
 	/// A spacer to add into layouts. Has a large flexible width/height by default to eat all
 	/// the extra space.
 	/// </summary>
-	public class PSpacer : IUIComponent {
+	public class PSpacer : UIComponentBase {
 		/// <summary>
 		/// The flexible size of this spacer. Defaults to (1, 1) but can be set to (0, 0) to
 		/// make this spacer a fixed size area instead.
@@ -36,17 +36,13 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public Vector2 PreferredSize { get; set; }
 
-		public event PUIDelegates.OnRealize OnRealize;
-
-		public string Name { get; }
-
 		public PSpacer() {
 			Name = "Spacer";
 			FlexSize = Vector2.one;
 			PreferredSize = Vector2.zero;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var spacer = new GameObject(Name);
 			var le = spacer.AddComponent<LayoutElement>();
 			le.flexibleHeight = FlexSize.y;
@@ -55,7 +51,8 @@ namespace PeterHan.PLib.UI {
 			le.minWidth = 0.0f;
 			le.preferredHeight = PreferredSize.y;
 			le.preferredWidth = PreferredSize.x;
-			OnRealize?.Invoke(spacer);
+			InvokeOnRealize(spacer);
+			BuiltObject = spacer;
 			return spacer;
 		}
 

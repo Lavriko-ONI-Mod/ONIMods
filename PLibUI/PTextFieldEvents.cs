@@ -30,6 +30,12 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		[SerializeField]
 		internal PUIDelegates.OnTextChanged OnTextChanged { get; set; }
+		
+		/// <summary>
+		/// The action to trigger on ValueChange. It is passed the realized source object.
+		/// </summary>
+		[SerializeField]
+		internal PUIDelegates.OnTextChanged OnValueChangedEvent { get; set; }
 
 		/// <summary>
 		/// The callback to invoke when validating input.
@@ -141,6 +147,7 @@ namespace PeterHan.PLib.UI {
 		private void OnValueChanged(string text) {
 			var obj = gameObject;
 			if (obj != null && TextObject != null) {
+				OnValueChangedEvent?.Invoke(obj, text);
 				var rt = TextObject.rectTransform();
 				rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, LayoutUtility.
 					GetPreferredHeight(rt));

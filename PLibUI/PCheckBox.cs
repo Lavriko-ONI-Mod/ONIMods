@@ -210,6 +210,7 @@ namespace PeterHan.PLib.UI {
 			layout.flexibleHeight = FlexSize.y;
 			DestroyLayoutIfPossible(checkbox);
 			InvokeRealize(checkbox);
+			BuiltObject = checkbox;
 			return checkbox;
 		}
 

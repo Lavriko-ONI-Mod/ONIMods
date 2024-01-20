@@ -23,7 +23,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// A custom UI toggled button factory class.
 	/// </summary>
-	public sealed class PToggle : IDynamicSizable {
+	public sealed class PToggle : UIComponentBase, IDynamicSizable {
 		/// <summary>
 		/// The default margins around a toggle.
 		/// </summary>
@@ -81,8 +81,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public RectOffset Margin { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The action to trigger when the state changes. It is passed the realized source
 		/// object.
@@ -98,8 +96,6 @@ namespace PeterHan.PLib.UI {
 		/// The tool tip text.
 		/// </summary>
 		public string ToolTip { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		public PToggle() : this(null) { }
 
@@ -123,7 +119,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var toggle = PUIElements.CreateUI(null, Name);
 			// Set on click event
 			var kToggle = toggle.AddComponent<KToggle>();
@@ -163,7 +159,8 @@ namespace PeterHan.PLib.UI {
 				PUIElements.AddSizeFitter(toggle, DynamicSize);
 			// Add tooltip
 			PUIElements.SetToolTip(toggle, ToolTip).SetFlexUISize(FlexSize).SetActive(true);
-			OnRealize?.Invoke(toggle);
+			InvokeOnRealize(toggle);
+			BuiltObject = toggle;
 			return toggle;
 		}
 

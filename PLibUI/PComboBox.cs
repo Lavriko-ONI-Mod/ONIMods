@@ -24,7 +24,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// A custom UI combo box factory class.
 	/// </summary>
-	public sealed class PComboBox<T> : IUIComponent, IDynamicSizable where T : class,
+	public sealed class PComboBox<T> : UIComponentBase, IDynamicSizable where T : class,
 			IListableOption {
 		/// <summary>
 		/// The default margin around items in the pulldown.
@@ -101,15 +101,11 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public int MinWidth { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The action to trigger when an item is selected. It is passed the realized source
 		/// object.
 		/// </summary>
 		public PUIDelegates.OnDropdownChanged<T> OnOptionSelected { get; set; }
-
-		public event PUIDelegates.OnRealize OnRealize;
 
 		/// <summary>
 		/// The text alignment in the combo box.
@@ -156,7 +152,7 @@ namespace PeterHan.PLib.UI {
 			return this;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var combo = PUIElements.CreateUI(null, Name);
 			var style = TextStyle ?? PUITuning.Fonts.UILightStyle;
 			var entryColor = EntryColor ?? PUITuning.Colors.ButtonBlueStyle;
@@ -230,7 +226,8 @@ namespace PeterHan.PLib.UI {
 			pullDown.SetActive(false);
 			layout.flexibleWidth = FlexSize.x;
 			layout.flexibleHeight = FlexSize.y;
-			OnRealize?.Invoke(combo);
+			InvokeOnRealize(combo);
+			BuiltObject = combo;
 			return combo;
 		}
 

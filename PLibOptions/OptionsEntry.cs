@@ -31,7 +31,7 @@ namespace PeterHan.PLib.Options {
 	/// <summary>
 	/// An abstract parent class containing methods shared by all built-in options handlers.
 	/// </summary>
-	public abstract class OptionsEntry : IOptionsEntry, IComparable<OptionsEntry>,
+	public abstract class OptionsEntry : UIComponentBase, IOptionsEntry, IComparable<OptionsEntry>,
 			IUIComponent {
 		private const BindingFlags INSTANCE_PUBLIC = BindingFlags.Public | BindingFlags.
 			Instance;
@@ -280,10 +280,6 @@ namespace PeterHan.PLib.Options {
 		/// </summary>
 		public string Format { get; }
 
-		public virtual string Name => nameof(OptionsEntry);
-
-		public event PUIDelegates.OnRealize OnRealize;
-
 		/// <summary>
 		/// The option title on screen.
 		/// </summary>
@@ -302,6 +298,7 @@ namespace PeterHan.PLib.Options {
 		protected OptionsEntry(string field, IOptionSpec attr) {
 			if (attr == null)
 				throw new ArgumentNullException(nameof(attr));
+			Name = nameof(OptionsEntry);
 			Field = field;
 			Format = attr.Format;
 			Title = attr.Title ?? throw new ArgumentException("attr.Title is null");
@@ -309,9 +306,10 @@ namespace PeterHan.PLib.Options {
 			Category = attr.Category;
 		}
 
-		public GameObject Build() {
+		public override GameObject Build() {
 			var comp = GetUIComponent();
-			OnRealize?.Invoke(comp);
+			InvokeOnRealize(comp);
+			BuiltObject = comp;
 			return comp;
 		}
 

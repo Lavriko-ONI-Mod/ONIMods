@@ -133,6 +133,7 @@ namespace PeterHan.PLib.UI {
 			layout.flexibleWidth = FlexSize.x;
 			layout.flexibleHeight = FlexSize.y;
 			InvokeRealize(panel);
+			BuiltObject = panel;
 			return panel;
 		}
 

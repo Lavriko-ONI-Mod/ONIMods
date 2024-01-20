@@ -25,7 +25,7 @@ namespace PeterHan.PLib.UI {
 	/// <summary>
 	/// The abstract parent of PLib UI components which display text and/or images.
 	/// </summary>
-	public abstract class PTextComponent : IDynamicSizable {
+	public abstract class PTextComponent : UIComponentBase, IDynamicSizable {
 		/// <summary>
 		/// The center of an object for pivoting.
 		/// </summary>
@@ -154,8 +154,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public RectOffset Margin { get; set; }
 
-		public string Name { get; }
-
 		/// <summary>
 		/// The sprite to display, or null to display no sprite.
 		/// </summary>
@@ -221,8 +219,6 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		public string ToolTip { get; set; }
 
-		public event PUIDelegates.OnRealize OnRealize;
-
 		protected PTextComponent(string name) {
 			DynamicSize = false;
 			FlexSize = Vector2.zero;
@@ -242,7 +238,7 @@ namespace PeterHan.PLib.UI {
 			ToolTip = "";
 		}
 
-		public abstract GameObject Build();
+		public abstract override GameObject Build();
 
 		/// <summary>
 		/// If the flex size is zero and dynamic size is false, the layout group can be
@@ -259,7 +255,7 @@ namespace PeterHan.PLib.UI {
 		/// </summary>
 		/// <param name="obj">The realized text component.</param>
 		protected void InvokeRealize(GameObject obj) {
-			OnRealize?.Invoke(obj);
+			InvokeOnRealize(obj);
 		}
 
 		public override string ToString() {
